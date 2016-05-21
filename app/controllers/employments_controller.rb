@@ -4,33 +4,49 @@ class EmploymentsController < ApplicationController
   # GET /employments
   # GET /employments.json
   def index
-    # currentYear = Time.new.year
-    # lastYear = currentYear - 1
-    # @response = HTTParty.post('http://api.bls.gov/publicAPI/v2/timeseries/data/',
-    # {
-    #   headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'},
-    #   body:
-    #       {'seriesid' => ['LAUMT114790000000003'],
-    #         'startyear' => "#{lastYear}",
-    #         'endyear' => "#{currentYear}",
-    #         'registrationKey' => ENV['registrationKey']
-    #       }.to_json,
-    #       :content_type => 'application/json'
-    #
-    # })
-    # @result = @response.body
+    currentYear = Time.new.year
+    lastYear = currentYear - 1
+    @response = HTTParty.post('http://api.bls.gov/publicAPI/v2/timeseries/data/',
+    {
+      headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'},
+      body:
+          {'seriesid' => ['LAUMT114790000000003', 'LAUMT257165000000003', 'LAUMT481910000000003', 'LAUMT482642000000003', 'LAUMT043806000000003', 'LAUMT131206000000003', 'LAUMT363562000000003', 'LAUMT171698000000003'],
+            'startyear' => "#{lastYear}",
+            'endyear' => "#{currentYear}",
+            'registrationKey' => ENV['registrationKey']
+          }.to_json,
+          :content_type => 'application/json'
+
+    })
+    @result = @response.body
+    @result = JSON.parse(@result)
+
+    # @result = {"Results"=>{"series":[{"seriesID":"LAUMT114790000000003","data":[{"year":"2016","period":"M03","periodName":"March","value":"4.1","footnotes":[{"code":"P","text":"Preliminary."}]},{"year":"2016","period":"M02","periodName":"February","value":"4.1","footnotes":[{}]},{"year":"2016","period":"M01","periodName":"January","value":"4.2","footnotes":[{}]},{"year":"2015","period":"M12","periodName":"December","value":"3.9","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M11","periodName":"November","value":"4.1","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M10","periodName":"October","value":"4.2","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M09","periodName":"September","value":"4.3","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M08","periodName":"August","value":"4.4","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M07","periodName":"July","value":"4.6","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M06","periodName":"June","value":"4.7","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M05","periodName":"May","value":"4.5","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M04","periodName":"April","value":"4.2","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M03","periodName":"March","value":"4.6","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M02","periodName":"February","value":"4.9","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M01","periodName":"January","value":"5.0","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]}]},{"seriesID":"LAUMT481910000000003","data":[{"year":"2016","period":"M03","periodName":"March","value":"3.8","footnotes":[{"code":"P","text":"Preliminary."}]},{"year":"2016","period":"M02","periodName":"February","value":"3.7","footnotes":[{}]},{"year":"2016","period":"M01","periodName":"January","value":"3.8","footnotes":[{}]},{"year":"2015","period":"M12","periodName":"December","value":"3.6","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M11","periodName":"November","value":"3.9","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M10","periodName":"October","value":"4.0","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M09","periodName":"September","value":"4.0","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M08","periodName":"August","value":"4.1","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M07","periodName":"July","value":"4.3","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M06","periodName":"June","value":"4.3","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M05","periodName":"May","value":"4.0","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M04","periodName":"April","value":"3.8","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M03","periodName":"March","value":"4.1","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M02","periodName":"February","value":"4.2","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M01","periodName":"January","value":"4.5","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]}]},{"seriesID":"LAUMT257165000000003","data":[{"year":"2016","period":"M03","periodName":"March","value":"4.0","footnotes":[{"code":"P","text":"Preliminary."}]},{"year":"2016","period":"M02","periodName":"February","value":"4.0","footnotes":[{}]},{"year":"2016","period":"M01","periodName":"January","value":"4.3","footnotes":[{}]},{"year":"2015","period":"M12","periodName":"December","value":"4.0","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M11","periodName":"November","value":"4.1","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M10","periodName":"October","value":"4.1","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M09","periodName":"September","value":"4.5","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M08","periodName":"August","value":"4.3","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M07","periodName":"July","value":"4.7","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M06","periodName":"June","value":"4.8","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M05","periodName":"May","value":"4.5","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M04","periodName":"April","value":"4.2","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M03","periodName":"March","value":"4.6","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M02","periodName":"February","value":"4.9","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]},{"year":"2015","period":"M01","periodName":"January","value":"5.1","footnotes":[{"code":"R","text":"Data were subject to revision on April 15, 2016."}]}]}]}}
+    # @result = @result.to_json
     # @result = JSON.parse(@result)
 
-    @result = {"Results"=>{"series"=>[{"seriesID"=>"LAUMT114790000000003", "data"=>[{"year"=>"2016", "period"=>"M03", "periodName"=>"March", "value"=>"4.1", "footnotes"=>[{"code"=>"P", "text"=>"Preliminary."}]}, {"year"=>"2016", "period"=>"M02", "periodName"=>"February", "value"=>"4.1", "footnotes"=>[{}]}, {"year"=>"2016", "period"=>"M01", "periodName"=>"January", "value"=>"4.2", "footnotes"=>[{}]}, {"year"=>"2015", "period"=>"M12", "periodName"=>"December", "value"=>"3.9", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M11", "periodName"=>"November", "value"=>"4.1", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M10", "periodName"=>"October", "value"=>"4.2", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M09", "periodName"=>"September", "value"=>"4.3", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M08", "periodName"=>"August", "value"=>"4.4", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M07", "periodName"=>"July", "value"=>"4.6", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M06", "periodName"=>"June", "value"=>"4.7", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M05", "periodName"=>"May", "value"=>"4.5", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M04", "periodName"=>"April", "value"=>"4.2", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M03", "periodName"=>"March", "value"=>"4.6", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M02", "periodName"=>"February", "value"=>"4.9", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}, {"year"=>"2015", "period"=>"M01", "periodName"=>"January", "value"=>"5.0", "footnotes"=>[{"code"=>"R", "text"=>"Data were subject to revision on April 15, 2016."}]}]}]}}
-    latestMonth = @result["Results"]["series"][0]["data"][0]["periodName"]
-    currentMonthIndex = @result["Results"]["series"][0]["data"].index {|f| f["periodName"] == "#{latestMonth}"}
-    @latestMonthResult = @result["Results"]["series"][0]["data"][currentMonthIndex]["value"]
-    puts @latestMonthResult
+    @latestMonth = @result["Results"]["series"][0]["data"][0]["periodName"]
+    @latestYear = @result["Results"]["series"][0]["data"][0]["year"]
+    # @latestMonthResult = @result["Results"]["series"][0]["data"][0]["value"]
+    # @oneYearPriorResult = @result["Results"]["series"][0]["data"][12]["value"]
+    @graph = ["labels"=>[], "latestMonthResult"=>[], "oneYearPriorResult"=>[]]
+    @graph[0]["labels"] << "#{@latestMonth} #{@latestYear}"
+    @graph[0]["labels"] << "#{@latestMonth} #{@latestYear.to_i - 1}"
+    @result["Results"]["series"].each do |series|
+      @graph[0]["latestMonthResult"] << series["data"][0]["value"].to_f
+      @graph[0]["oneYearPriorResult"] << series["data"][12]["value"].to_f
+    end
+
+    # @graph[0]["latestMonthResult"] = @latestMonthResult
+    # @graph[0]["oneYearPriorResult"] = @oneYearPriorResult
+    # @graph[0]['latestYear'] = @latestYear
+
     # ["data"].find_index {|test| test["periodName"] == "March"}
     respond_to do |format|
-      format.json { render :json => @result }
+      format.json { render :json => @graph }
       format.html { render "index.html.erb" }
     end
+
   end
 
     # GET /employments/1

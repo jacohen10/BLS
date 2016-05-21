@@ -1,53 +1,92 @@
 <body>
+  <h1>Unemployment Rate For Largest Metro Areas</h1>
   <canvas id="myChart"></canvas>
 </body>
 
 <script>
 $(document).ready(function(){
-    $.ajax({
-      dataType: 'json',
-      cache: false,
-      url: '/employments.json',
-      timeout: 2000,
-      error: function(XMLHttpRequest, errorTextStatus, error) {
-        alert('Failed to submit : ' + errorTextStatus + ' ;' + error);
-      },
-      success: function(data) {
-        console.log(data);
-      }
-    });
-
-  var ctx = document.getElementById("myChart");
   var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July", "August"],
+    labels: ["DC","PHX", "DAL", "CHI", "HOU", "ATL", "BOS", "NY"],
     datasets: [
       {
-        label: "My First dataset",
+        label: "",
+        backgroundColor: "rgba(51, 153, 255, 0.2)",
+        borderColor: "rgba(51, 153, 255,1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(51, 153, 255, 0.4)",
+        hoverBorderColor: "rgba(51, 153, 255,1)",
+        data: []
+      },
+      {
+        label: "",
         backgroundColor: "rgba(255,99,132,0.2)",
         borderColor: "rgba(255,99,132,1)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
-        data: [65, 59, 80, 81, 56, 55, 40, 10]
+        data: []
       }
+
     ]
   };
-  var myBarChart = new Chart(ctx, {
-    type: 'bar',
-    data: data,
-    options: {
-      scales: {
-        xAxes: [{
-          stacked: true
-        }],
-        yAxes: [{
-          stacked: true
-        }]
-      }
-    }
 
+  $.ajax({
+    dataType: 'json',
+    cache: false,
+    url: '/employments.json',
+    timeout: 2000,
+    error: function(XMLHttpRequest, errorTextStatus, error) {
+      alert('Failed to submit : ' + errorTextStatus + ' ;' + error);
+    },
+    success: function(graphData) {
+      Jgraph = graphData
+      data.datasets[0].label = graphData[0].labels[0]
+      data.datasets[1].label = graphData[0].labels[1]
+      $.each(graphData[0].latestMonthResult, function(index, value){
+        data.datasets[0].data.push(value)
+      })
+      $.each(graphData[0].oneYearPriorResult, function(index, value){
+        data.datasets[1].data.push(value)
+      })
+      // data.datasets[0].data.push(graphData[0].latestMonthResult.forEach
+      console.log(graphData[0].latestMonthResult);
+      console.log(data.datasets[0].data);
+      // console.log(data.datasets[0].data);
+      // data.datasets[1].label = graphData[0].latestYear.toString()
+      // data.labels = graphData[0].labels
+      // data.datasets[1].data = [graphData[0].latestMonthResult]
+      // console.log(data.datasets[1].data);
+      createGraph()
+
+    }
   });
 
+  function createGraph() {
+    var ctx = document.getElementById("myChart");
+
+    var myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+        scales: {
+          xAxes: [{
+            stacked: false
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '%'
+            },
+            stacked: false,
+            ticks: {
+              beginAtZero: true
+            },
+          }]
+        }
+      }
+
+    });
+  }
 
 });
 </script>
