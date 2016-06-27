@@ -33,13 +33,12 @@ $(document).ready(function(){
   $.ajax({
     dataType: 'json',
     cache: false,
-    url: '/employments.json',
+    url: '/national_data.json',
     timeout: 2000,
     error: function(XMLHttpRequest, errorTextStatus, error) {
       alert('Failed to submit : ' + errorTextStatus + ' ;' + error);
     },
     success: function(graphData) {
-      Jgraph = graphData
       data.datasets[0].label = graphData[0].labels[0]
       data.datasets[1].label = graphData[0].labels[1]
       $.each(graphData[0].latestMonthResult, function(index, value){

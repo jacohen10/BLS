@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  get '/employments/national', to: 'employments#national_data'
-  resources :employments
+  get '/national_data/national', to: 'national_data#national_data'
+  get '/national_data/employment', to: 'national_data#national_employment'
+  resources :national_data
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
