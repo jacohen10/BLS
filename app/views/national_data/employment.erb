@@ -1,14 +1,14 @@
-<h1>National Unemployment Rate</h1>
+<h1>National Employment 1 Month Change</h1>
 <canvas id="myChart"></canvas>
 
 
 <script>
 $(document).ready(function(){
 var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: [],
     datasets: [
         {
-            label: "National Unemployment Rate",
+            label: "National Employment 1 Month Change",
             fill: false,
             lineTension: 0.1,
             backgroundColor: "rgba(75,192,192,0.4)",
@@ -26,7 +26,7 @@ var data = {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: [],
         }
     ]
 };
@@ -34,15 +34,15 @@ var data = {
   $.ajax({
     dataType: 'json',
     cache: false,
-    url: '/employments/national.json',
+    url: '/national_data/national.json',
     timeout: 2000,
     error: function(XMLHttpRequest, errorTextStatus, error) {
       alert('Failed to submit : ' + errorTextStatus + ' ;' + error);
     },
     success: function(graphData) {
       Jgraph = graphData
-      data.labels = graphData['unemployment'][0].labels
-      data.datasets[0].data = graphData['unemployment'][0].value
+      data.labels = graphData.national_employment.labels
+      data.datasets[0].data = graphData.national_employment.value
       createGraph()
 
     }
@@ -59,14 +59,14 @@ var data = {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: '%'
+              labelString: 'Thousands'
             },
             stacked: false,
             ticks: {
               beginAtZero: true,
-              max: 6,
-              min: 4,
-              stepSize: 1
+              max: 400,
+              min: 0,
+              stepSize: 50
             },
           }]
         }
